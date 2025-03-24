@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="第三单元 LDO：使输出电压稳定的设备，能够在输入端和输出端（电源电压与负载电压）之间保持微小压差。 nRESET中n表示低电平复位，没有n表示高电平复位 UART端口、USB接口、CAN接口、以太网接口都可以DMA控制器控制数据传输 AMBA主要由系统总线和外围总线两部分组成 速度不高的连接外围总线APB，包括定时器、并行接口和串行接口等；而电源管理以及时钟控制器等都连接在系统总线上。PWM挂在">
+<meta property="og:type" content="article">
+<meta property="og:title" content="卷梦残缇">
+<meta property="og:url" content="http://example.com/2025/03/24/%E7%AC%AC%E4%B8%89%E5%8D%95%E5%85%83/index.html">
+<meta property="og:site_name" content="卷梦残缇">
+<meta property="og:description" content="第三单元 LDO：使输出电压稳定的设备，能够在输入端和输出端（电源电压与负载电压）之间保持微小压差。 nRESET中n表示低电平复位，没有n表示高电平复位 UART端口、USB接口、CAN接口、以太网接口都可以DMA控制器控制数据传输 AMBA主要由系统总线和外围总线两部分组成 速度不高的连接外围总线APB，包括定时器、并行接口和串行接口等；而电源管理以及时钟控制器等都连接在系统总线上。PWM挂在">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/image-44.png">
+<meta property="og:image" content="http://example.com/image-45.png">
+<meta property="og:image" content="http://example.com/image-46.png">
+<meta property="og:image" content="http://example.com/image-47.png">
+<meta property="og:image" content="http://example.com/image-48.png">
+<meta property="og:image" content="http://example.com/image-49.png">
+<meta property="og:image" content="http://example.com/image-50.png">
+<meta property="og:image" content="http://example.com/image-51.png">
+<meta property="og:image" content="http://example.com/image-52.png">
+<meta property="og:image" content="http://example.com/image-53.png">
+<meta property="og:image" content="http://example.com/image-54.png">
+<meta property="og:image" content="http://example.com/image-55.png">
+<meta property="og:image" content="http://example.com/image-70.png">
+<meta property="og:image" content="http://example.com/image-56.png">
+<meta property="og:image" content="http://example.com/image-57.png">
+<meta property="og:image" content="http://example.com/image-58.png">
+<meta property="og:image" content="http://example.com/image-59.png">
+<meta property="og:image" content="http://example.com/image-60.png">
+<meta property="og:image" content="http://example.com/image-61.png">
+<meta property="og:image" content="http://example.com/image-62.png">
+<meta property="og:image" content="http://example.com/image-63.png">
+<meta property="og:image" content="http://example.com/image-64.png">
+<meta property="og:image" content="http://example.com/image-65.png">
+<meta property="og:image" content="http://example.com/image-66.png">
+<meta property="og:image" content="http://example.com/image-67.png">
+<meta property="og:image" content="http://example.com/image-68.png">
+<meta property="og:image" content="http://example.com/image-69.png">
+<meta property="article:published_time" content="2025-03-24T10:57:21.772Z">
+<meta property="article:modified_time" content="2025-03-01T05:38:16.219Z">
+<meta property="article:author" content="再也不画PCB了（饺子不沾醋版）">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/image-44.png">
+
+<link rel="canonical" href="http://example.com/2025/03/24/%E7%AC%AC%E4%B8%89%E5%8D%95%E5%85%83/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title> | 卷梦残缇</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">卷梦残缇</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2025/03/24/%E7%AC%AC%E4%B8%89%E5%8D%95%E5%85%83/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="再也不画PCB了（饺子不沾醋版）">
+      <meta itemprop="description" content="绍池潭水画何物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="卷梦残缇">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2025-03-24 18:57:21" itemprop="dateCreated datePublished" datetime="2025-03-24T18:57:21+08:00">2025-03-24</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-03-01 13:38:16" itemprop="dateModified" datetime="2025-03-01T13:38:16+08:00">2025-03-01</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="第三单元"><a href="#第三单元" class="headerlink" title="第三单元"></a>第三单元</h1><ol>
+<li>LDO：使输出电压稳定的设备，能够在输入端和输出端（电源电压与负载电压）之间保持微小压差。</li>
+<li>nRESET中n表示低电平复位，没有n表示高电平复位</li>
+<li>UART端口、USB接口、CAN接口、以太网接口都可以DMA控制器控制数据传输</li>
+<li>AMBA主要由系统总线和外围总线两部分组成</li>
+<li>速度不高的连接外围总线APB，包括定时器、并行接口和串行接口等；而电源管理以及时钟控制器等都连接在系统总线上。PWM挂在APB总线上</li>
+<li>A 选项：片上 SRAM 及 Flash ROM 通常连接在高速的 AHB（Advanced High - performance Bus）总线上，因为它们的数据传输速度要求较高，AHB 能满足高速数据传输需求。<br>B 选项：PWM 属于低速外设，常挂载在 APB 总线上。<br>C 选项：USB 主机一般连接在高速的 AHB 或 ASB（Advanced System Bus ，早期版本，现在多用 AHB）总线上，因为 USB 数据传输速度相对较快，APB 总线难以满足其高速传输要求。<br>D 选项：DMA 控制器通常也连接在高速的 AHB 总线上，以实现高速的数据直接内存访问操作。</li>
+<li>嵌入式最小硬件系统包括嵌入式处理器、时钟电路、电源电路、复位电路、存储器和调试测试接口</li>
+<li></li>
+</ol>
+<ul>
+<li>嵌入式系统常用外接复位芯片提供的付微信号来实现系统的可靠复位</li>
+<li>微处理器用复位芯片可通过两个不同1引脚分别输出高电平或低电平有效的复位信号</li>
+</ul>
+<ol start="17">
+<li>产生时钟信号的晶振，有的是有源的、有的是无源的</li>
+<li><img src="/image-44.png" alt="alt text"></li>
+<li><img src="/image-45.png" alt="alt text"><br>在 SPI（Serial Peripheral Interface，串行外设接口）通信中，时钟信号 SCK 的每次有效作用对应一位数据的发送和另一位数据的接收。主机和从机通过 MOSI（主出从入）和 MISO（主入从出）线进行数据交换，数据在时钟信号的控制下逐位传输。<br>已知主机移位寄存器 A 中已存入 11001010，从机移位寄存器 B 中已存入 11110000。当主机发出 4 个 SCK 有效信号后，数据会按照 SPI 的通信规则逐位进行交换：<br>每一个 SCK 信号都会使主机和从机移位寄存器中的数据移动一位，同时通过 MOSI 和 MISO 线进行数据传输。<br>经过 4 个 SCK 信号后，主机移位寄存器 A 中原来的高 4 位数据（1100）已经发送到从机，同时从机移位寄存器 B 中原来的高 4 位数据（1111）也已经发送到主机。<br>此时，主机移位寄存器 A 中的内容变为 00001100（原来低 4 位左移后，高 4 位接收从机发送过来的数据），从机移位寄存器 B 中的内容变为 10101111（原来低 4 位左移后，高 4 位接收主机发送过来的数据）。<br>所以答案是 D。而选项 C 中主机移位寄存器 A 和从机移位寄存器 B 中的内容不符合上述 SPI 通信规则下的数据交换结果。</li>
+<li><strong>锁相环</strong>是一种能让输出信号和输入信号的相位保持同步的电路或模块。它就像一个“智能的时钟同步器”，先比较输入信号和自身输出信号的相位差，把这个相位差转化成电压信号，再用这个电压信号去调整自身振荡器的频率，让输出信号的频率和相位紧紧“跟随”输入信号，实现两者同步 。 </li>
+<li>JTAG可以实现在线编辑功能</li>
+<li><img src="/image-46.png" alt="alt text">虽然外接了一个石英晶体振荡器，但是还是使用内部时钟信号发生器</li>
+<li><em>78xx</em>是普通稳压器，LDO是低压差稳压器</li>
+<li>78xx系列并不是AC - DC模块。78xx系列是一种线性稳压集成电路，属于DC - DC转换器件。它的输入和输出都是直流电压，用于将较高的直流电压转换为稳定的较低直流电压输出，例如常见的7805可将输入直流电压转换为5V直流输出。</li>
+</ol>
+<p>而AC - DC模块是用于将交流电转换为直流电的模块，所以C选项说78xx系列是一种AC - DC模块的叙述是错误的。<br>39. 介绍一下<strong>LDO</strong>：低压差” 指其输入输出电压差较小，在输入电压仅略高于输出电压时就能正常工作，相比传统线性稳压器效率更高、功耗更低。<br>功能：将较高直流电压转换为稳定的较低直流电压输出，为电子设备中的不同部件提供稳定电源。<br>46. AMBA的系统总线：连接高带宽快速组件（高带宽片上RAM和DMA主控制器也在上面，USB主机、片上SRAM及Flash、Ethernet、告诉GPIO中断控制器、LCD控制器都在这上面）<br>外围总线：连接低带宽组件以及与外部相连的硬件组件<br>49. FRAM和MRAM是两种新兴的非易失性存储器（不是半导体）<br>52. 外围总线APB：包括定时器、并行接口和串行接口等；还有CAN、RTC、SPI<br>LCD和中断控制器都在系统总线上<br>54. “#”代表着低电平有效<br>59. ASB是AMBA1总线中的系统总线<br>67. 只需要满足要求就行，不一定必须保证嵌入式处理器能够工作在最高工作频率<br>73. 晶振应该考虑嵌入式处理器的最高工作频率，也要保证系统在一定的功耗封你为内，因此嵌入式处理器时钟信号的频率不能超过嵌入式处理器的最高工作频率<br>79. - NOR Flash ROM的写入和擦除速度较慢</p>
+<ul>
+<li>NAND Flash ROM以页（行）为单位随机存取，在容量、使用寿命和成本方面有比较大的优势<br>，但是<em>读出速度较慢，编程复杂</em>，一般作为数据存储器使用</li>
+</ul>
+<ol start="85">
+<li>在数码管显示内容改变之前，数据线的状态可以改变</li>
+<li>标准中断控制器不能区分中断的优先级，但是VIC可以，NVIC更强大</li>
+</ol>
+<p>与此同时，处理中断有两种形式：标准的中断控制器和VIC（向量中断控制器）<br>107. RTC不与系统总线相连，大那是中断控制器与系统总线相连<br>111. SPI和UART和I^2C都是串行工作，只有GPIO可以实现并行I&#x2F;O<br>112. IIC可以进行总线仲裁，但是SPI没有<br>113. <img src="/image-47.png" alt="alt text">D：使用这个是为了进行行扫描输出<br>115. <img src="/image-48.png" alt="alt text"><br>117. 与 S3C2410 某个 GPIO 端口对应的数据寄存器只有一个。通过对该寄存器的读写操作来实现数据的输入和输出，当 GPIO 引脚被配置为输入时，读取该寄存器可获取引脚的输入电平状态；当配置为输出时，向该寄存器写入数据可控制引脚的输出电平。并不是有两个数据寄存器分别存放输入和输出数据，所以该选项错误。<br>118. FRAM和MRAM都是非易失性存储器<br>119. 片内存储数据通常用的是SRAM，片内程序存储器通常使用的是SDRAM<br>123. TB是2的40次方B<br>134. LED&#x2F;LCD显示接口属于典型的嵌入式系统的人机交互通道<br>141. 目前已知的半双工：IIC和USB<br>145. LCD：液晶显示器，LED是发光二极管<br>146. RS-232采用负逻辑传输：低电平是1，高电平是0<br>153. <img src="/image-49.png" alt="alt text"><br>156. <img src="/image-50.png" alt="alt text"><br><img src="/image-51.png" alt="alt text"><br>158. 片外扩展的存储器简称主存储器或主存，而外部存储设备简称辅助存储器<br>160. 正在运行的程序的大部分数据和代码存放在主存储器（内存）中<br>164. <img src="/image-52.png" alt="alt text"><br>169. PWM不属于互联通信组件<br>170. <img src="/image-53.png" alt="alt text"><br>选项C错误在于电阻式触摸屏<strong>一般不支持多点触摸或滑动操作</strong>。</p>
+<p>电阻式触摸屏是基于压力感应原理工作，当触摸时，屏幕表面的两层导电层接触，通过检测接触点的电阻变化来确定触摸位置。其技术特性使得它在检测多个触摸点或精确识别滑动等复杂操作上存在困难。</p>
+<p>而多点触摸或滑动操作通常是电容式触摸屏的特性，电容式触摸屏通过检测手指等导体与屏幕表面电容的变化来识别触摸，能更好地支持多点触摸和滑动等复杂操作。所以选项C说电阻式触摸屏通过多点触摸或滑动进行操作是错误的。<br>171. <img src="/image-54.png" alt="alt text"><br>在驱动LED等负载时加反向驱动器有以下原因：</p>
+<ul>
+<li><strong>电平匹配</strong>：某些情况下，ARM芯片GPIO引脚输出电平可能不满足LED正常工作需求。反向驱动器可将GPIO输出电平转换为适合LED的电平，确保LED能正常发光。比如GPIO输出低电平逻辑0时，经反向驱动器后输出高电平，为LED提供合适的正向偏置电压。</li>
+<li><strong>电流放大</strong>：GPIO引脚输出电流能力有限，可能不足以驱动LED达到合适亮度。反向驱动器可提供较大驱动电流，满足LED工作的电流要求，保证LED正常发光。</li>
+<li><strong>保护芯片</strong>：反向驱动器可起到一定隔离作用，避免LED工作时产生的电气干扰或异常电流影响ARM芯片，保护芯片正常工作。</li>
+</ul>
+<p>在图（a）中加反向驱动器，就是为了实现上述一个或多个功能，确保LED能稳定、可靠地工作。不过，对于驱动单个LED，在GPIO引脚电流和电平能满足要求时，也可不加反向驱动器，如图（c）电路更简洁，在一定条件下是合理的驱动方式。<br>176. <img src="/image-55.png" alt="alt text"><br>186. 内存的带宽：每秒可传输（读出&#x2F;写入）的最大数据总量，存储器贷款与存储器总线频率有关，也与数据位数（宽度）和每个总线周期的传输次数有关<br>194. 接收中断并置位标志的条件通常不是接收到一个字符，而是达到接收缓冲过去的特定状态<br>196. S3C2410内含的I2C的7位地址读写操作包括4个部分，顺序分别是：起始位S、7位从器件地址、读写位R&#x2F;W、应答位A<br> DVI（Digital Visual Interface，数字视频接口）不是一种 LCD 控制器的标准，而是一种接口标准。<br> 补充：寄存器规则：<br>每个引脚由2位控制（例如GPE15用bit31和bit30）。<br>00 &#x3D; 输入模式<br>01 &#x3D; 输出模式<br>10 &#x3D; 特殊功能（如I2C）<br>11 &#x3D; 保留<br>201. S3C2410片内没有集成摄像头接口以及AC97音频接口<br>202. S3C2410的电源管理模块通常有四种模式：正常模式、慢速模式、休眠模式和掉电模式<br>203. Flash存储器通常用作系统的程序存储器</p>
+<p>高宽带外部存储器控制接口不仅能用于扩展系统的程序存储器，还可以扩展数据存储器<br>207. <img src="/image-70.png" alt="alt text"><br>如果想要d正确，除了选项中描述的要做的事，GPE7 - GPE0 引脚连接到 74HC573 芯片的 1D - 8D 数据输入端，而 74HC573 是带三态门的透明锁存器。GPF0 引脚连接到 74HC573 的 CLK（时钟）端，需要在 GPF0 引脚产生一个合适的上升沿信号，这样才能将此时 GPE7 - GPE0 引脚上的新数据锁存到 74HC573 内部，并通过 1Q - 8Q 输出端传送给数码管，从而改变数码管显示内容。<br>209. <img src="/image-56.png" alt="alt text"><br>210. <img src="/image-57.png" alt="alt text"><br>214. USB3.0采用全双工通信，通信时采用主从方式<br>217. IIC总线上每次发送的数据字节不受限制，但是每个字节必须为8位，且每个字节后面必须跟一个应答位（ACK）<br>218. <img src="/image-58.png" alt="alt text"><br>222. 涉及IIC操作的寄存器有IICCON、IICSTAT、地址寄存器、数据位移寄存器等<br>223. <img src="/image-59.png" alt="alt text"><br>229. （书P155）BANK的总线宽度时8位、16位、32位，但是BANK0的总线宽度只能选择16位、32位<br>230. <img src="/image-60.png" alt="alt text"><br>S3C2410有两个中断挂起寄存器：源中断挂起寄存器SRCPND和中断挂起寄存器；当多个中断源请求服务时，SRCPND相应の位被写1，<br>233. 嵌入式系统可以通过扩展无线模块来实现无线通信，该模块与嵌入式处理器连接时不仅可以用UART，还可以用USB<br>237. <img src="/image-61.png" alt="alt text"><br><img src="/image-62.png" alt="alt text"><br>因为上拉电阻的存在，所以按下按钮的时候是0<br>238. S3C2410是32位嵌入式处理器<br>240. 编码键盘（线性键盘）<br>310. S3C2410内部有5个16位定时器Timer，有4个具备PWM输出<br>308. 在S3C2410芯片中，题目中ABCD对应的寄存器作用如下： </p>
+<ul>
+<li><strong>A选项TCNTB0 - TCNTB4（Timer Count Buffer Register）</strong>：定时器计数缓冲寄存器。每个定时器都有对应的计数缓冲寄存器，如TCNTB0对应Timer0。它们用于存放定时器的初始计数值。在定时器开始工作前，会将这些寄存器中的值加载到实际的计数寄存器中，作为计数的起始值。 </li>
+<li><strong>B选项TCNTO0 - TCNTO4（Timer Count Observation Register）</strong>：定时器计数观察寄存器。对应每个定时器，如TCNTO0对应Timer0。这些寄存器用于存储定时器当前的计数值。通过读取这些寄存器的值，可实时获取定时器的运行状态，了解当前计数到了哪个值。 </li>
+<li><strong>C选项TCON（Timer Control Register）</strong>：定时器控制寄存器。这是控制定时器运行的关键寄存器，可进行多种操作控制，如启动和停止定时器、设置自动重载功能、手动更新计数缓冲寄存器的值到计数寄存器、设置定时器的工作模式等。通过对TCON中不同位的设置，可以灵活地控制定时器的行为。 </li>
+<li><strong>D选项TCFG0（Timer Configuration Register 0）</strong>：定时器配置寄存器0。主要用于设置定时器的预分频器（Prescaler）值。预分频器可对输入到定时器的时钟信号进行分频处理，从而得到不同频率的计数时钟，以满足不同的定时需求 。</li>
+</ul>
+<ol start="303">
+<li><img src="/image-63.png" alt="alt text"><br>顾名思义，HCLK给AHB（高速H）来用，PCLK给APB（低速P）来用</li>
+<li><img src="/image-64.png" alt="alt text"><br>C、1Hz是分频得到的，而不是本身就是</li>
+<li><img src="/image-65.png" alt="alt text"> “仲控数校，传数保序” </li>
+<li><img src="/image-66.png" alt="alt text"><br>CAN 的数据帧包含多种域，其中校验域采用的是循环冗余校验（CRC）方式，而非奇偶校验，所以 C 选项叙述错误。</li>
+<li>非编码键盘是线性键盘，也是矩阵键盘</li>
+<li><img src="/image-67.png" alt="alt text"></li>
+<li>UART是<strong>全双工</strong></li>
+<li>USB的2.0为半双工通信，3.0为全双工通信</li>
+<li><img src="/image-68.png" alt="alt text"></li>
+<li>SPI是同步串行通信方式，CAN、USB2.0、UART采用串行异步通信方式</li>
+<li>HDMI传送信号的方式是数字信号而不是模拟信号</li>
+<li>RTC内部都是8位寄存器</li>
+<li>UARTn对应的控制寄存器UCONn用于确定UARTn传输帧的格式。<br>❌ 错误。</li>
+</ol>
+<p>UART的帧格式（如数据位长度、停止位、奇偶校验）是由 ULCONn（行控制寄存器） 设置的，而非UCONn。</p>
+<p>UCONn（控制寄存器） 的作用是配置传输模式（如中断或轮询）、时钟选择等，与帧格式无关。</p>
+<ol start="262">
+<li>UART的波特率由除数寄存器决定，也取决于外部时钟，可以是PCLK，还可以是UEXTCLK，由相应控制寄存器决定</li>
+<li>硬实时、软实时与准实时的概念与时限的长短没有关系</li>
+<li>通过编程可以改变RTC的年月日等，但是无法该百年时钟分频器的分频系数</li>
+<li>IIC固定是8位，不改变，SCL（时钟线）： 像一个“节拍器”，负责同步数据传输。主设备（比如这里的S3C2410）需要主动发出这个时钟信号，告诉从设备（比如存储器FM24CL64）什么时候发送或接收数据。因此，SCL必须由主设备输出（即主设备控制时钟）。</li>
+</ol>
+<p>SDA（数据线）： 像一条“双向车道”，主设备既可以通过它发送数据给从设备（比如写入数据），也可以接收从设备返回的数据（比如读取数据）。所以SDA需要既能输出数据，又能输入数据（即双向）。<br>267. R&#x2F;W&#x3D;1为读，R&#x2F;W&#x3D;0为写<br>270. PWM（脉宽调制）的核心功能是通过调节占空比（高电平时间与周期的比例）来控制输出信号。S3C2410的PWM定时器允许用户自由配置占空比，而非固定为1:1的方波（即50%占空比）。例如：</p>
+<p>用户可以通过设置比较寄存器的值，决定高电平的持续时间，从而生成不同占空比的PWM信号。</p>
+<p>若需要1:1的方波，需手动将占空比设为50%。但题目中选项D的表述“配置成PWM定时器后，输出的PWM信号是1:1的方波”暗示占空比是固定的，这与PWM的可配置特性矛盾。</p>
+<p>结论：选项D错误，因为S3C2410的PWM定时器的占空比是用户可编程的，而非固定为1:1。<br>271. GPIO不是共享一个寄存器，而是说每个端口都有控制寄存器、数据寄存器以及上拉寄存器<br>272. INTMASK为中断屏蔽寄存器，INTMOD来设置S3C2410内置硬件组件的硬件中断为FIQ还是IRQ，<br>275. <img src="/image-69.png" alt="alt text"><br>276. MPLL是专门用于CPU及外围器件的锁相环时钟；UPLL时钟是专用于USB设备的锁相环时钟；<br>277. 在嵌入式设备中，接口名称上画横线（如(\overline{WR})、(\overline{CS}) ） ，这是表示低电平有效，而不是高电平。 </p>
+<p>以常见的读写控制信号为例，当写信号(\overline{WR}) 为低电平时，表示允许进行写操作；当片选信号(\overline{CS}) 为低电平时， 才选中对应的芯片或模块。 </p>
+<p>要让相关线路或功能按预期接通、实现相应操作，通常是要让低电平有效的信号拉低（即置为0 ），同时结合其他信号状态满足对应逻辑条件，而不是让它处于高电平。<br>284. 8个GPIO引脚最多能构成64个按键的键盘<br>287. CAN 采用短帧通信，一个数据帧最多可以传送 8 个字节 。<br>290. Windows Phone 8是嵌入式操作系统<br>294. CAN总线比较自由，每次发送的字节数是0<del>8B<br>295. RS232是负逻辑传输，因此逻辑0和逻辑1的东西相当于是刚好反过来（逻辑0的电压范围为-15v</del>3v，逻辑1的电压范围为3~15v）<br>297. 用通俗语言解释选项B为什么错误：</p>
+<p>假设你有一个开关（GPF6引脚）和一个电灯（发送数据功能）。</p>
+<p>正确逻辑：当开关打开（GPF6为高电平），电灯才会亮（本机发送数据）。</p>
+<p>题目中的描述：选项B却说“开关关闭时（低电平），电灯亮了”，这显然矛盾。</p>
+<p>具体原因：</p>
+<p>DE引脚的作用：RS-485芯片（MAX3485）的DE引脚是“发送使能”开关。</p>
+<p>DE为高电平 → 允许发送数据（灯亮）。</p>
+<p>DE为低电平 → 禁止发送数据（灯灭）。</p>
+<p>GPF6与DE的连接：</p>
+<p>图中GPF6通过一个“非门”（逻辑反相器）连接到DE引脚。</p>
+<p>GPF6为高电平 → 非门输出低电平 → DE引脚实际为低电平 → 禁止发送数据。</p>
+<p>GPF6为低电平 → 非门输出高电平 → DE引脚实际为高电平 → 允许发送数据。</p>
+<p>选项B的问题：<br>它说“GPF6为低电平时本机发送数据”，但实际上：</p>
+<p>GPF6为低电平 → DE引脚为高电平 → 允许发送数据。</p>
+<p>选项B的描述是正确的？这里存在矛盾。</p>
+<p>关键修正：<br>根据题目解析，实际情况是：</p>
+<p>GPF6为高电平 → 非门输出低电平 → DE引脚为低电平 → 禁止发送数据。</p>
+<p>题目中的选项B错误，因为它描述的逻辑与电路实际行为相反。</p>
+<p>结论：选项B错误，因为当GPF6为低电平时，本机才能发送数据，而选项B说“低电平时发送”，这与实际电路逻辑矛盾。<br>（“非门”是数字逻辑中最基本的门之一，也叫做反相器（Inverter）。它的功能很简单：输入高电平，输出低电平；输入低电平，输出高电平。就像一个开关，输入开的时候输出关，输入关的时候输出开。）<br>29999. 1. 核心概念对比<br>组件	职责定位	实现内容示例	目标用户<br>设备驱动程序	直接操作硬件寄存器	GPIO控制、ADC数据采集、SPI通信时序	硬件工程师<br>哈尔	抽象硬件差异，统一接口	提供标准化函数HAL_UART_Transmit()	系统&#x2F;应用开发者<br>BSP	适配特定硬件板卡	内存映射、时钟树配置、板级外设初始化	嵌入式平台开发者<br>2. 层级关系与协作<br>   +———————+<br>   |    应用程序&#x2F;操作系统 | ← 调用统一接口（如HAL）<br>   +———————+<br>           ↓<br>   +———————+<br>   |     硬件抽象层 (HAL) | ← 屏蔽底层硬件差异（如STM32与ESP32的UART实现不同）<br>   +———————+<br>           ↓<br>   +———————+<br>   | 设备驱动程序 (Driver)| ← 直接读写寄存器（如STM32的USART_DR寄存器操作）<br>   +———————+<br>           ↓<br>   +———————+<br>   |   板级支持包 (BSP)   | ← 包含启动文件、内存布局、外设引脚映射等板级配置<br>   +———————+<br>           ↓<br>   +———————+<br>   |        硬件          |<br>   +———————+<br>3. 具体关系说明<br>（1） BSP与驱动程序<br>BSP是驱动程序的运行环境<br>BSP为驱动程序提供硬件平台的初始化支持，例如：<br>&#x2F;&#x2F; BSP中的初始化代码（如STM32的SystemInit函数）<br>void SystemInit() {<br>    SCB-&gt;VTOR &#x3D; FLASH_BASE;  &#x2F;&#x2F; 设置中断向量表地址<br>    RCC-&gt;CR |&#x3D; RCC_CR_HSEON; &#x2F;&#x2F; 启用外部高速时钟<br>    &#x2F;&#x2F; 配置GPIO引脚复用功能（如USART_TX引脚）<br>    GPIOA-&gt;AFR[0] |&#x3D; (7 &lt; (4 * 9)); &#x2F;&#x2F; PA9复用为USART1_TX<br>}<br>BSP包含驱动程序<br>针对板载外设（如触摸屏、以太网PHY芯片）的驱动代码通常集成在BSP中。<br>（2） HAL与驱动程序<br>HAL通过驱动程序实现功能<br>HAL层调用驱动程序的底层作，例如STM32的HAL库中：<br>&#x2F;&#x2F; HAL_UART_Transmit函数（简化版）<br>HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size) {<br>    &#x2F;&#x2F; 通过驱动程序操作寄存器<br>    while (Size–) {<br>        while (!(huart-&gt;Instance-&gt;SR &amp; USART_SR_TXE)); &#x2F;&#x2F; 等待发送缓冲区空<br>        huart-&gt;Instance-&gt;DR &#x3D; (*pData++ &amp; 0xFF);        &#x2F;&#x2F; 写入数据寄存器<br>    }<br>    return HAL_OK;<br>}<br>HAL对多平台的统一抽象<br>同一HAL接口（如）在不同硬件平台下调用不同的驱动程序实现。HAL_I2C_Read()<br>（3） BSP与HAL<br>BSP集成HAL<br>在STM32CubeMX生成的工程中，BSP会包含针对具体芯片型号的HAL库。<br>BSP提供HAL的配置依赖<br>例如，通过文件配置HAL模块的使能状态。stm32f4xx_hal_conf.h<br>4. 实际开发中的协作流程<br>以**STM32开发板+温湿度传感器（DHT11）**为例：</p>
+<p>BSP层：初始化MCU时钟、配置GPIO模式（如将PA1设置为输入模式）。<br>驱动程序：实现DHT11的时序协议（如精确的微秒级延时和电平读取）。<br>HAL层：提供等标准化接口。HAL_Sensor_ReadHumidity()<br>应用层：直接调用HAL接口读取数据，无需关心底层是STM32还是ESP32。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2025/03/24/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%B8%89%E7%BA%A7%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%AC%AC%E4%B8%80%E5%8D%95%E5%85%83/" rel="prev" title="计算机三级嵌入式第一单元">
+      <i class="fa fa-chevron-left"></i> 计算机三级嵌入式第一单元
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2025/03/24/%E7%AC%AC%E4%BA%8C%E5%8D%95%E5%85%83/" rel="next" title="">
+       <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E5%8D%95%E5%85%83"><span class="nav-number">1.</span> <span class="nav-text">第三单元</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">再也不画PCB了（饺子不沾醋版）</p>
+  <div class="site-description" itemprop="description">绍池潭水画何物</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">9</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">再也不画PCB了（饺子不沾醋版）</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

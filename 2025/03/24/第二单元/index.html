@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Cortex-M 功耗强、耗电少、RISC结构，但不是多周期操作 素有处理器都有三种状态：   ARM状态 Thumb状态 Thumb-2状态  7.   FIQ：用来处理高速中断 IRQ：用来普通中断处理 ABT：中止模式 SYS：特权级的操作系统任务    ARM处理器的优点：指令流水线技术，单周期操作    存储机制（内核）：冯诺依曼结构和哈佛结构 体系结构（指令集结构）：RISC和CIS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="卷梦残缇">
+<meta property="og:url" content="http://example.com/2025/03/24/%E7%AC%AC%E4%BA%8C%E5%8D%95%E5%85%83/index.html">
+<meta property="og:site_name" content="卷梦残缇">
+<meta property="og:description" content="Cortex-M 功耗强、耗电少、RISC结构，但不是多周期操作 素有处理器都有三种状态：   ARM状态 Thumb状态 Thumb-2状态  7.   FIQ：用来处理高速中断 IRQ：用来普通中断处理 ABT：中止模式 SYS：特权级的操作系统任务    ARM处理器的优点：指令流水线技术，单周期操作    存储机制（内核）：冯诺依曼结构和哈佛结构 体系结构（指令集结构）：RISC和CIS">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/image-26.png">
+<meta property="og:image" content="http://example.com/image-27.png">
+<meta property="og:image" content="http://example.com/image-28.png">
+<meta property="og:image" content="http://example.com/image-29.png">
+<meta property="og:image" content="http://example.com/image-30.png">
+<meta property="og:image" content="http://example.com/image-31.png">
+<meta property="og:image" content="http://example.com/image-32.png">
+<meta property="og:image" content="http://example.com/image-33.png">
+<meta property="og:image" content="http://example.com/image-34.png">
+<meta property="og:image" content="http://example.com/image-35.png">
+<meta property="og:image" content="http://example.com/image-36.png">
+<meta property="og:image" content="http://example.com/image-37.png">
+<meta property="og:image" content="http://example.com/image-38.png">
+<meta property="og:image" content="http://example.com/image-39.png">
+<meta property="og:image" content="http://example.com/image-40.png">
+<meta property="og:image" content="http://example.com/image-41.png">
+<meta property="og:image" content="http://example.com/image-42.png">
+<meta property="og:image" content="http://example.com/image-43.png">
+<meta property="article:published_time" content="2025-03-24T10:57:22.028Z">
+<meta property="article:modified_time" content="2025-02-19T12:42:31.734Z">
+<meta property="article:author" content="再也不画PCB了（饺子不沾醋版）">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/image-26.png">
+
+<link rel="canonical" href="http://example.com/2025/03/24/%E7%AC%AC%E4%BA%8C%E5%8D%95%E5%85%83/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title> | 卷梦残缇</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">卷梦残缇</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2025/03/24/%E7%AC%AC%E4%BA%8C%E5%8D%95%E5%85%83/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="再也不画PCB了（饺子不沾醋版）">
+      <meta itemprop="description" content="绍池潭水画何物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="卷梦残缇">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2025-03-24 18:57:22" itemprop="dateCreated datePublished" datetime="2025-03-24T18:57:22+08:00">2025-03-24</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-02-19 20:42:31" itemprop="dateModified" datetime="2025-02-19T20:42:31+08:00">2025-02-19</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <ol start="2">
+<li>Cortex-M 功耗强、耗电少、RISC结构，但不是多周期操作</li>
+<li>素有处理器都有三种状态：</li>
+</ol>
+<ul>
+<li>ARM状态</li>
+<li>Thumb状态</li>
+<li>Thumb-2状态</li>
+</ul>
+<p>7. </p>
+<ul>
+<li>FIQ：用来处理高速中断</li>
+<li>IRQ：用来普通中断处理</li>
+<li>ABT：中止模式</li>
+<li>SYS：特权级的操作系统任务</li>
+</ul>
+<ol start="8">
+<li><img src="/image-26.png" alt="alt text"></li>
+<li>ARM处理器的优点：指令流水线技术，单周期操作</li>
+<li></li>
+</ol>
+<ul>
+<li>存储机制（内核）：冯诺依曼结构和哈佛结构</li>
+<li>体系结构（指令集结构）：RISC和CISC</li>
+</ul>
+<p>12. </p>
+<ul>
+<li>ARM处理器内部的总线标准是AMBA   </li>
+<li>ARM处理器的指令编码不全为32位，ARM处理器本身是32位设计，但也配备16位指令集</li>
+<li>Cortex-M是microcontroller，故控制</li>
+</ul>
+<ol start="14">
+<li></li>
+</ol>
+<ul>
+<li>ARM处理器都是RISC结构</li>
+</ul>
+<ol start="15">
+<li>Cortex-A最适合高端应用</li>
+<li></li>
+</ol>
+<ul>
+<li>R13为堆栈指针</li>
+<li>R14为链接寄存器</li>
+<li>R15为PC使用</li>
+<li>CPSR为当前程序状态寄存器（备份程序状态寄存器SPSR）</li>
+</ul>
+<ol start="21">
+<li>ARM采用RISC指令集架构！！！！！！！！！！！！！</li>
+<li>SBC：算数运算指令，不属于逻辑运算助记符</li>
+<li><img src="/image-27.png" alt="alt text"></li>
+<li><img src="/image-28.png" alt="alt text"></li>
+<li></li>
+</ol>
+<ul>
+<li>Cortex-M 功耗低，体积小</li>
+<li>Cortex-A工作效率高，性能好</li>
+<li>Cortex-R 响应速度快，成本低，功耗低</li>
+</ul>
+<ol start="62">
+<li></li>
+</ol>
+<ul>
+<li>高端ARM处理器有Cache</li>
+<li>Cortex-M0内部的WIC为唤醒中断控制器<br><img src="/image-29.png" alt="alt text"></li>
+</ul>
+<ol start="73">
+<li>成本低和功耗低：Cortex-R</li>
+<li>处理器有三种状态：</li>
+</ol>
+<ul>
+<li>ARM状态</li>
+<li>Thumb&#x2F;Thumb-2状态</li>
+<li>调试状态</li>
+</ul>
+<ol start="95">
+<li>基址加变址寻址是将基址寄存器的内容与变址寄存器的内容相加，形成操作数的有效地址。在 ARM 指令系统中，数据传送指令并不支持基址加变址寻址方式，一般像存储器访问指令（如 LDR、STR 等）会使用基址加变址寻址，所以该选项错误。</li>
+<li>A53-A57都是64位ARM处理器</li>
+<li><img src="/image-30.png" alt="alt text"><br><img src="/image-31.png" alt="alt text"></li>
+<li>MPU:存储器保护单元，对存储器进行保护的可选组件<br>MMU：</li>
+</ol>
+<ul>
+<li>虚拟地址到物理地址的映射</li>
+<li>存储器访问权限控制</li>
+<li>对Flash、SRAM、SDRAM、ROM等不同类型的存储器进行统一管理</li>
+</ul>
+<ol start="115">
+<li><img src="/image-32.png" alt="alt text"></li>
+<li>ARM 体系结构中，CP15 协处理器的控制寄存器（Control Register）在很多 ARM 内核中被用于控制数据的字节序（即大端或小端模式）。</li>
+<li>CPSR的条件码标志含义：</li>
+</ol>
+<ul>
+<li>N为符号标志，N&#x3D;1代表为负数；</li>
+<li>Z为全零标志，z&#x3D;0表示运算的结果非零</li>
+<li>C为进借位标志，加法有进位时C&#x3D;1；减法与加法相反</li>
+<li>Q为DSP运算是否溢出标志</li>
+<li>V为溢出标志</li>
+<li>I为中断禁止控制位</li>
+<li>F为禁止中断FIQ控制位</li>
+<li>T为ARM与Thumb指令切换，T&#x3D;1时ARM处理器进入Thumb状态</li>
+</ul>
+<ol start="124">
+<li>M0内部的WIC为唤醒中断控制器</li>
+<li><img src="/image-33.png" alt="alt text"></li>
+<li>VFP是ARM处理器用于浮点数运算的部件</li>
+<li>BIC：bit clear也就是清除指令</li>
+<li>读：LDR<br>写：STR</li>
+<li><img src="/image-34.png" alt="alt text"></li>
+<li><img src="/image-35.png" alt="alt text"></li>
+<li>异常向量地址一般在异常发生时写入程序计数器（PC），而不是从异常中断返回时写入 PC 。</li>
+<li>未定义指令和软件中断是最低级，外部中断高一点，快速中断更高一点</li>
+<li>数据访问种植DABT，指令预取终止PABT。</li>
+<li>LDRB和LDRH的区别：</li>
+</ol>
+<ul>
+<li>数据宽度：LDRB用于从内存中加载一个字节（8 位）的数据；LDRH用于从内存中加载一个半字（16 位，即两个字节）的数据。</li>
+<li>数据扩展方式：LDRB将从内存读取的 8 位字节数据加载到寄存器时，会将寄存器的高 24 位用零扩展，也就是将其填充为 0；LDRH将从内存读取的 16 位半字数据加载到寄存器时，会将寄存器的高 16 位用零扩展。<br><img src="/image-36.png" alt="alt text"><br>这里面R1是地址，R0是数值！</li>
+</ul>
+<ol start="172">
+<li>Cortex-M系列内部没有MMU部件</li>
+<li>C 选项：BIC R7,R7,#0xFFFFFFDC<br>指令功能：BIC是位清除指令。按照BIC指令的规则，会根据立即数0xFFFFFFDC中为 1 的位，将R7中对应的位清除为 0。<br>D 选项：XOR R7,R7,#0xFFFFFFDC<br>指令功能：XOR是逻辑异或指令。逻辑异或操作是当对应位不同时结果位为 1，相同时结果位为 0。<br>SPI也是串行，一个一个发数据</li>
+<li><img src="/image-37.png" alt="alt text"></li>
+<li>M0内部的WIC为唤醒中断控制器,NVIC是嵌套向量中断控制器</li>
+<li>系统复位后默认用的是小端模式</li>
+<li>中断控制器保存了发生中断时的中断向量，不是CPSR</li>
+</ol>
+<ul>
+<li>CPSR可以读也可以写，可以控制是否允许外部中断，决定ARM工作模式</li>
+</ul>
+<ol start="190">
+<li><ul>
+<li>数据类型有字节、半字和字等</li>
+</ul>
+</li>
+</ol>
+<ul>
+<li>存储格式包括大端模式和小端模式</li>
+<li>一个字32位，必须以4字节对齐，即低2位地址始终为0？？？？？？？？</li>
+</ul>
+<p>194. </p>
+<ul>
+<li>ADC:带进位加法</li>
+<li>BIC：清零指令</li>
+<li>ORR：逻辑或指令</li>
+<li>MVN：数据取反指令</li>
+<li>TST：位测试指令</li>
+</ul>
+<ol start="198">
+<li>MPU、MMU、Cache与存储器直接相关</li>
+<li>SUBCC 指令：<br>功能：在无进位（Carry Flag 为0）的条件下执行减法操作。</li>
+</ol>
+<p>操作：如果进位标志（Carry Flag）为0，则执行减法操作；否则，不执行。</p>
+<ul>
+<li>立即寻址：把数据直接端上来，代替R1等寄存器</li>
+<li>寄存器间接寻址：【R1】</li>
+<li>寄存器寻址：R1，R2等</li>
+</ul>
+<ol start="205">
+<li><img src="/image-38.png" alt="alt text"><br>图中的感叹号意思是数据回写，如果没有感叹号，R4里面的值是不会改变的</li>
+<li>数据处理指令分为：</li>
+</ol>
+<ul>
+<li>数据传送指令</li>
+<li>算数逻辑指令</li>
+<li>比较指令<br>（所以不难发现加载指令不包含在这里，所以LDR和LDL不属于数据处理指令）</li>
+</ul>
+<ol start="211">
+<li>注意顺序：<br><img src="/image-39.png" alt="alt text"></li>
+<li><img src="/image-40.png" alt="alt text"></li>
+<li><img src="/image-41.png" alt="alt text"></li>
+<li><img src="/image-42.png" alt="alt text"></li>
+<li>内存和外设的数据有可能改变（因为R0和R1对应的值可能相同，可能不同）</li>
+<li>LDRD R0, R1, [R2, #8]  ; 从地址 R2 + 8 处加载两个 32 位数据到 R0 和 R1</li>
+<li><ul>
+<li>DCD:在内存区域分配一个<em><strong>连续的</strong></em>字节内存空间</li>
+</ul>
+</li>
+</ol>
+<ul>
+<li>CODE 16伪指令通知编译器，其后的指令序列为16位的Thumb指令</li>
+<li>EQU伪指令用于为程序中的常量、标号等定义以一个等效的字符名称</li>
+</ul>
+<ol start="243">
+<li>STR是把右边的数据放到左边</li>
+<li><img src="/image-43.png" alt="alt text"></li>
+<li>存放多少倍地址的问题：应该从左移还是右移开始看</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2025/03/24/%E7%AC%AC%E4%B8%89%E5%8D%95%E5%85%83/" rel="prev" title="">
+      <i class="fa fa-chevron-left"></i> 
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2025/03/24/%E7%AC%AC%E4%B8%80%E5%8D%95%E5%85%83/" rel="next" title="">
+       <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">再也不画PCB了（饺子不沾醋版）</p>
+  <div class="site-description" itemprop="description">绍池潭水画何物</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">9</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">再也不画PCB了（饺子不沾醋版）</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
