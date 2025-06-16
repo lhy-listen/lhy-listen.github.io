@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="一、什么是 dB？dB（分贝）是一个无量纲的单位，用于表示两个物理量的比值（如功率、电压、电流的比值），目的是将大范围的数值压缩成更易处理的小数值，同时直观反映信号的强弱变化或系统的增益&#x2F;衰减特性。 1. 功率的 dB 计算[\text{dB} &#x3D; 10 \times \log_{10}\left(\frac{P_2}{P_1}\right)]  (P_1)：参考功率（如输入功">
+<meta property="og:type" content="article">
+<meta property="og:title" content="卷梦残缇">
+<meta property="og:url" content="http://example.com/2025/05/27/%E7%94%B5%E8%B7%AF%E5%9F%BA%E7%A1%80/index.html">
+<meta property="og:site_name" content="卷梦残缇">
+<meta property="og:description" content="一、什么是 dB？dB（分贝）是一个无量纲的单位，用于表示两个物理量的比值（如功率、电压、电流的比值），目的是将大范围的数值压缩成更易处理的小数值，同时直观反映信号的强弱变化或系统的增益&#x2F;衰减特性。 1. 功率的 dB 计算[\text{dB} &#x3D; 10 \times \log_{10}\left(\frac{P_2}{P_1}\right)]  (P_1)：参考功率（如输入功">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-05-27T14:15:23.383Z">
+<meta property="article:modified_time" content="2025-05-27T14:17:57.670Z">
+<meta property="article:author" content="再也不画PCB了">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2025/05/27/%E7%94%B5%E8%B7%AF%E5%9F%BA%E7%A1%80/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title> | 卷梦残缇</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">卷梦残缇</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2025/05/27/%E7%94%B5%E8%B7%AF%E5%9F%BA%E7%A1%80/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="再也不画PCB了">
+      <meta itemprop="description" content="绍池潭水画何物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="卷梦残缇">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2025-05-27 22:15:23 / 修改时间：22:17:57" itemprop="dateCreated datePublished" datetime="2025-05-27T22:15:23+08:00">2025-05-27</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="一、什么是-dB？"><a href="#一、什么是-dB？" class="headerlink" title="一、什么是 dB？"></a>一、什么是 dB？</h3><p><strong>dB（分贝）是一个无量纲的单位</strong>，用于表示<strong>两个物理量的比值</strong>（如功率、电压、电流的比值），目的是将大范围的数值压缩成更易处理的小数值，同时直观反映信号的强弱变化或系统的增益&#x2F;衰减特性。</p>
+<h4 id="1-功率的-dB-计算"><a href="#1-功率的-dB-计算" class="headerlink" title="1. 功率的 dB 计算"></a><strong>1. 功率的 dB 计算</strong></h4><p>[<br>\text{dB} &#x3D; 10 \times \log_{10}\left(\frac{P_2}{P_1}\right)<br>]</p>
+<ul>
+<li>(P_1)：参考功率（如输入功率）。  </li>
+<li>(P_2)：目标功率（如输出功率）。  </li>
+<li><strong>例</strong>：若输出功率是输入功率的 10 倍，则增益为 (10 \times \log_{10}(10) &#x3D; 10 , \text{dB})；若输出功率是输入功率的 1&#x2F;10，则衰减为 (-10 , \text{dB})。</li>
+</ul>
+<h4 id="2-电压-电流的-dB-计算（功率与电压的关系：-P-propto-V-2-）"><a href="#2-电压-电流的-dB-计算（功率与电压的关系：-P-propto-V-2-）" class="headerlink" title="2. 电压&#x2F;电流的 dB 计算（功率与电压的关系：(P \propto V^2)）"></a><strong>2. 电压&#x2F;电流的 dB 计算（功率与电压的关系：(P \propto V^2)）</strong></h4><p>[<br>\text{dB} &#x3D; 20 \times \log_{10}\left(\frac{V_2}{V_1}\right) \quad \text{或} \quad 20 \times \log_{10}\left(\frac{I_2}{I_1}\right)<br>]</p>
+<ul>
+<li><strong>原因</strong>：功率与电压平方成正比，因此公式中系数为 20（而非 10）。  </li>
+<li><strong>例</strong>：若输出电压是输入电压的 2 倍，则增益为 (20 \times \log_{10}(2) \approx 6 , \text{dB})；若输出电压是输入电压的 1&#x2F;√2（约 0.707 倍），则衰减为 (20 \times \log_{10}(1&#x2F;\sqrt{2}) \approx -3 , \text{dB})。</li>
+</ul>
+<h3 id="二、什么是-3dB？"><a href="#二、什么是-3dB？" class="headerlink" title="二、什么是 -3dB？"></a>二、什么是 -3dB？</h3><p><strong>-3dB 是电路中非常重要的临界值</strong>，通常对应<strong>信号功率衰减为原来的一半</strong>（或电压&#x2F;电流衰减为原来的 (1&#x2F;\sqrt{2} \approx 0.707) 倍）。</p>
+<h4 id="1-3dB-的物理意义"><a href="#1-3dB-的物理意义" class="headerlink" title="1. -3dB 的物理意义"></a><strong>1. -3dB 的物理意义</strong></h4><ul>
+<li><strong>功率角度</strong>：<br>当功率 (P_2 &#x3D; P_1&#x2F;2) 时，<br>[<br>\text{dB} &#x3D; 10 \times \log_{10}(1&#x2F;2) \approx -3 , \text{dB}<br>]  </li>
+<li><strong>电压&#x2F;电流角度</strong>：<br>当电压 (V_2 &#x3D; V_1&#x2F;\sqrt{2}) 时，<br>[<br>\text{dB} &#x3D; 20 \times \log_{10}(1&#x2F;\sqrt{2}) \approx -3 , \text{dB}<br>]  </li>
+<li><strong>为什么重要？</strong><br>在滤波器、放大器等电路中，<strong>-3dB 点通常被定义为截止频率（(f_c)）</strong>，即从此频率开始，电路对信号的衰减显著增加。  <ul>
+<li>对于低通滤波器，截止频率 (f_c) 是“允许通过的最高频率”，高于 (f_c) 的信号被衰减。  </li>
+<li>对于高通滤波器，截止频率 (f_c) 是“允许通过的最低频率”，低于 (f_c) 的信号被衰减。</li>
+</ul>
+</li>
+</ul>
+<h3 id="三、结合原文的具体解释"><a href="#三、结合原文的具体解释" class="headerlink" title="三、结合原文的具体解释"></a>三、结合原文的具体解释</h3><h4 id="1-最大增益-≤1（通常-1），信号通过时会衰减（如-3dB-截止点）"><a href="#1-最大增益-≤1（通常-1），信号通过时会衰减（如-3dB-截止点）" class="headerlink" title="1. 最大增益 ≤1（通常 &lt; 1），信号通过时会衰减（如 -3dB 截止点）"></a><strong>1. 最大增益 ≤1（通常 &lt; 1），信号通过时会衰减（如 -3dB 截止点）</strong></h4><ul>
+<li><strong>RC 无源滤波器</strong>由电阻和电容组成，<strong>没有放大元件（如运放）</strong>，因此：  <ul>
+<li><strong>最大增益为 1</strong>（当输入信号频率为 0 时，电容相当于开路，输出电压等于输入电压，即 (V_{out} &#x3D; V_{in})，增益为 1，对应 (0 , \text{dB})）。  </li>
+<li><strong>实际中增益通常 &lt; 1</strong>，因为电容对交流信号有容抗（(X_C &#x3D; 1&#x2F;(2\pi fC))），频率越高，容抗越小，输出电压越低（衰减越大）。</li>
+</ul>
+</li>
+<li><strong>-3dB 截止点</strong>：<br>当信号频率达到 (f_c) 时，输出电压衰减为输入电压的 (1&#x2F;\sqrt{2})（约 70.7%），对应 -3dB，此时电路开始显著抑制信号。</li>
+</ul>
+<h4 id="2-例：RC-低通滤波器的增益公式"><a href="#2-例：RC-低通滤波器的增益公式" class="headerlink" title="2. 例：RC 低通滤波器的增益公式"></a><strong>2. 例：RC 低通滤波器的增益公式</strong></h4><p>[<br>A &#x3D; \frac{1}{\sqrt{1 + (2\pi f RC)^2}}<br>]</p>
+<ul>
+<li><strong>公式推导</strong>：<br>RC 低通滤波器的传递函数为 (H(s) &#x3D; \frac{1}{1 + sRC})（(s &#x3D; j2\pi f) 为复频率），其幅频特性为：<br>[<br>|H(f)| &#x3D; \frac{1}{\sqrt{1 + (2\pi f RC)^2}}<br>]  </li>
+<li><strong>分析频率特性</strong>：  <ul>
+<li><strong>当 (f \ll f_c)（低频）</strong>：((2\pi f RC)^2 \approx 0)，增益 (A \approx 1)（0dB），信号几乎无衰减通过。  </li>
+<li><strong>当 (f &#x3D; f_c)</strong>：此时 (2\pi f RC &#x3D; 1)，增益 (A &#x3D; 1&#x2F;\sqrt{2} \approx 0.707)，对应 -3dB，即截止频率点。  </li>
+<li><strong>当 (f \gg f_c)（高频）</strong>：((2\pi f RC)^2 \gg 1)，增益 (A \approx 1&#x2F;(2\pi f RC))，随频率升高趋近于 0，信号被大幅衰减。</li>
+</ul>
+</li>
+</ul>
+<h3 id="四、总结：dB-与-3dB-的核心作用"><a href="#四、总结：dB-与-3dB-的核心作用" class="headerlink" title="四、总结：dB 与 -3dB 的核心作用"></a>四、总结：dB 与 -3dB 的核心作用</h3><ol>
+<li><strong>dB 的优势</strong>：  <ul>
+<li>用对数压缩数值范围（如将 0.001 到 1000 的比值转换为 -30dB 到 +30dB），便于分析和设计。  </li>
+<li>多级电路的总增益可通过 dB 相加（而非乘法），简化计算（如级联两个 10dB 放大器，总增益为 20dB）。</li>
+</ul>
+</li>
+<li><strong>-3dB 的工程意义</strong>：  <ul>
+<li>作为滤波器“通带”和“阻带”的分界点，定义了电路有效工作的频率范围。  </li>
+<li>在 RC 无源滤波器中，-3dB 点自然由 RC 元件的物理特性决定，无需额外设计；而有源滤波器可通过运放和反馈网络灵活调整截止频率和衰减特性。</li>
+</ul>
+</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2025/04/21/%E5%B5%8C%E8%B5%9B%E6%96%B9%E5%90%91/" rel="prev" title="">
+      <i class="fa fa-chevron-left"></i> 
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E4%BB%80%E4%B9%88%E6%98%AF-dB%EF%BC%9F"><span class="nav-number">1.</span> <span class="nav-text">一、什么是 dB？</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E5%8A%9F%E7%8E%87%E7%9A%84-dB-%E8%AE%A1%E7%AE%97"><span class="nav-number">1.1.</span> <span class="nav-text">1. 功率的 dB 计算</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E7%94%B5%E5%8E%8B-%E7%94%B5%E6%B5%81%E7%9A%84-dB-%E8%AE%A1%E7%AE%97%EF%BC%88%E5%8A%9F%E7%8E%87%E4%B8%8E%E7%94%B5%E5%8E%8B%E7%9A%84%E5%85%B3%E7%B3%BB%EF%BC%9A-P-propto-V-2-%EF%BC%89"><span class="nav-number">1.2.</span> <span class="nav-text">2. 电压&#x2F;电流的 dB 计算（功率与电压的关系：(P \propto V^2)）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E4%BB%80%E4%B9%88%E6%98%AF-3dB%EF%BC%9F"><span class="nav-number">2.</span> <span class="nav-text">二、什么是 -3dB？</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-3dB-%E7%9A%84%E7%89%A9%E7%90%86%E6%84%8F%E4%B9%89"><span class="nav-number">2.1.</span> <span class="nav-text">1. -3dB 的物理意义</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E7%BB%93%E5%90%88%E5%8E%9F%E6%96%87%E7%9A%84%E5%85%B7%E4%BD%93%E8%A7%A3%E9%87%8A"><span class="nav-number">3.</span> <span class="nav-text">三、结合原文的具体解释</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E6%9C%80%E5%A4%A7%E5%A2%9E%E7%9B%8A-%E2%89%A41%EF%BC%88%E9%80%9A%E5%B8%B8-1%EF%BC%89%EF%BC%8C%E4%BF%A1%E5%8F%B7%E9%80%9A%E8%BF%87%E6%97%B6%E4%BC%9A%E8%A1%B0%E5%87%8F%EF%BC%88%E5%A6%82-3dB-%E6%88%AA%E6%AD%A2%E7%82%B9%EF%BC%89"><span class="nav-number">3.1.</span> <span class="nav-text">1. 最大增益 ≤1（通常 &lt; 1），信号通过时会衰减（如 -3dB 截止点）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E4%BE%8B%EF%BC%9ARC-%E4%BD%8E%E9%80%9A%E6%BB%A4%E6%B3%A2%E5%99%A8%E7%9A%84%E5%A2%9E%E7%9B%8A%E5%85%AC%E5%BC%8F"><span class="nav-number">3.2.</span> <span class="nav-text">2. 例：RC 低通滤波器的增益公式</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E6%80%BB%E7%BB%93%EF%BC%9AdB-%E4%B8%8E-3dB-%E7%9A%84%E6%A0%B8%E5%BF%83%E4%BD%9C%E7%94%A8"><span class="nav-number">4.</span> <span class="nav-text">四、总结：dB 与 -3dB 的核心作用</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">再也不画PCB了</p>
+  <div class="site-description" itemprop="description">绍池潭水画何物</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">再也不画PCB了</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
